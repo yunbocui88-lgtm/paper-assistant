@@ -1,9 +1,9 @@
 export type CopyFormat = 'table-row' | 'labeled-text' | 'natural-summary';
 
-export function copyFieldValue(value: string | null): boolean {
+export async function copyFieldValue(value: string | null): Promise<boolean> {
   if (!value) return false;
   try {
-    navigator.clipboard.writeText(value);
+    await navigator.clipboard.writeText(value);
     return true;
   } catch {
     return false;
@@ -54,9 +54,9 @@ export function formatNaturalSummary(fields: Record<string, string | null>): str
   return parts.length > 0 ? parts.join('，') + '。' : '';
 }
 
-export function copyToClipboard(text: string): boolean {
+export async function copyToClipboard(text: string): Promise<boolean> {
   try {
-    navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(text);
     return true;
   } catch {
     return false;

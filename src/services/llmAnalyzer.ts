@@ -18,7 +18,7 @@ const ALL_STANDARD_FIELDS: [string, string][] = [
   ['abstract', '摘要（字符串）'],
   ['model_diagram_description', '论文中理论模型/框架图的文字描述，没有则 null'],
   ['model_type', '模型类型（如 结构方程模型、回归模型、TAM、UTAUT 等，字符串或null）'],
-  ['conclusion', '一句话核心结论（字符串）'],
+  ['conclusion', '一句话核心结论（字符串）—— 请用自己的话将论文最核心的发现概括为一句话（不超过100字），不要照抄原文结论段。例如："研究发现A通过B的中介作用正向影响C"'],
   ['research_theory', '研究理论（如 TAM理论、资源基础观、制度理论 等，字符串或null）'],
   ['research_method', '研究方法（如 问卷调查、实验法、案例研究 等，字符串或null）'],
   ['iv', '自变量（字符串或null）'],

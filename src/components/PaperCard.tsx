@@ -44,7 +44,7 @@ export function PaperCard({ paper, apiConfig, onUpdate, fieldOrder = [], onField
 
   const copyField = async (key: string) => {
     const value = getValue(key);
-    if (copyFieldValue(value)) {
+    if (await copyFieldValue(value)) {
       setCopiedField(key);
       setTimeout(() => setCopiedField(null), 1500);
     }
@@ -206,8 +206,8 @@ export function PaperCard({ paper, apiConfig, onUpdate, fieldOrder = [], onField
         {/* Copy buttons */}
         <div className="flex gap-2 mb-4 flex-wrap items-center">
           <button
-            onClick={() => {
-              if (copyToClipboard(formatTableRow([{ fields: allFields, headers: Object.keys(allFields) }]))) {
+            onClick={async () => {
+              if (await copyToClipboard(formatTableRow([{ fields: allFields, headers: Object.keys(allFields) }]))) {
                 setBatchCopied('table');
                 setTimeout(() => setBatchCopied(null), 2000);
               }
@@ -219,8 +219,8 @@ export function PaperCard({ paper, apiConfig, onUpdate, fieldOrder = [], onField
             {batchCopied === 'table' ? '✅ 已复制' : '📊 复制为表格行'}
           </button>
           <button
-            onClick={() => {
-              if (copyToClipboard(formatLabeledText(allFields, fieldLabels))) {
+            onClick={async () => {
+              if (await copyToClipboard(formatLabeledText(allFields, fieldLabels))) {
                 setBatchCopied('labeled');
                 setTimeout(() => setBatchCopied(null), 2000);
               }
@@ -232,8 +232,8 @@ export function PaperCard({ paper, apiConfig, onUpdate, fieldOrder = [], onField
             {batchCopied === 'labeled' ? '✅ 已复制' : '📝 复制为标签文本'}
           </button>
           <button
-            onClick={() => {
-              if (copyToClipboard(formatNaturalSummary(allFields))) {
+            onClick={async () => {
+              if (await copyToClipboard(formatNaturalSummary(allFields))) {
                 setBatchCopied('summary');
                 setTimeout(() => setBatchCopied(null), 2000);
               }
