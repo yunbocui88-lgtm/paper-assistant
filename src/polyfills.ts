@@ -5,6 +5,19 @@
  * For older browsers (especially Safari < 16), we provide fallbacks.
  */
 
+// ── Promise.withResolvers() ──────────────────────────────────────────────
+// Safari 17.4+, Chrome 119+, Firefox 121+. Used extensively by pdfjs-dist.
+if (typeof (Promise as any).withResolvers !== 'function') {
+  (Promise as any).withResolvers = function () {
+    let resolve: any, reject: any;
+    const promise = new Promise((res: any, rej: any) => {
+      resolve = res;
+      reject = rej;
+    });
+    return { promise, resolve, reject };
+  };
+}
+
 // ── AbortSignal.timeout(ms) ──────────────────────────────────────────────
 if (typeof AbortSignal.timeout !== 'function') {
   AbortSignal.timeout = function (ms: number): AbortSignal {
