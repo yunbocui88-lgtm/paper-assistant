@@ -11,6 +11,7 @@ interface Props {
 export function ExportPanel({ papers, fieldOrder = [] }: Props) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [exportFormat, setExportFormat] = useState<'xlsx' | 'csv'>('xlsx');
+  const [useChinese, setUseChinese] = useState(false);
 
   const completedPapers = papers.filter(p => p.status === 'completed');
 
@@ -65,6 +66,10 @@ export function ExportPanel({ papers, fieldOrder = [] }: Props) {
 
     const rows = toExport.map(p => {
       return allFieldKeys.map(k => {
+        // When Chinese mode is on, prefer translated_field value
+        if (useChinese && p.translated_fields?.[k]) {
+          return p.translated_fields[k] ?? '';
+        }
         const val = (p as any)[k] ?? (p.custom_fields || {})[k];
         if (val == null) return '';
         return val ?? '';
@@ -125,11 +130,37 @@ export function ExportPanel({ papers, fieldOrder = [] }: Props) {
           </div>
         </div>
 
-        <div className="text-sm text-gray-500 mb-4">
+        <div className="text-sm text-gray-500 mb-3">
           共 {completedPapers.length} 篇已完成分析的论文。
           {selectedIds.size > 0 && <span> 已选中 {selectedIds.size} 篇。</span>}
           {selectedIds.size === 0 && <span> 未选择时导出全部。</span>}
         </div>
+
+        {/* Chinese translation toggle */}
+        {(() => {
+          const translatedCount = completedPapers.filter(p => Object.keys(p.translated_fields || {}).length > 0).length;
+          return (
+            <label className={`flex items-center gap-2 mb-4 text-sm cursor-pointer px-3 py-2 rounded-lg border transition-colors ${
+              useChinese ? 'bg-indigo-50 border-indigo-300' : 'bg-white border-gray-200 hover:bg-gray-50'
+            }`}>
+              <input
+                type="checkbox"
+                checked={useChinese}
+                onChange={e => setUseChinese(e.target.checked)}
+                className="accent-indigo-600"
+              />
+              <span className={useChinese ? 'text-indigo-700 font-medium' : 'text-gray-600'}>
+                🌐 导出为中文
+              </span>
+              <span className="text-xs text-gray-400">
+                （{translatedCount}/{completedPapers.length} 篇已翻译）
+              </span>
+              {useChinese && (
+                <span className="text-xs text-indigo-500 ml-auto">已翻译字段优先使用中文，未翻译字段保留原文</span>
+              )}
+            </label>
+          );
+        })()}
 
         {/* Select all toggle */}
         <label className="flex items-center gap-2 cursor-pointer mb-4 text-sm">
@@ -207,7 +238,12 @@ export function ExportPanel({ papers, fieldOrder = [] }: Props) {
                 ).slice(0, 3).map(paper => (
                   <tr key={paper.id}>
                     {displayKeys.map(k => {
-                      const val = (paper as any)[k] ?? (paper.custom_fields || {})[k];
+                      let val: any;
+                      if (useChinese && paper.translated_fields?.[k]) {
+                        val = paper.translated_fields[k];
+                      } else {
+                        val = (paper as any)[k] ?? (paper.custom_fields || {})[k];
+                      }
                       return (
                         <td key={k} className="border border-gray-200 px-2 py-1 text-gray-700 max-w-32 truncate">
                           {val ?? '-'}
