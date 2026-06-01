@@ -1,8 +1,8 @@
 import * as pdfjsLib from 'pdfjs-dist';
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// Use Vite-resolved URL for reliable worker loading across all browsers (including Safari)
-pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+// Safari does not fully support ES module web workers (.mjs).
+// Force PDF.js to run on the main thread for cross-browser compatibility.
+pdfjsLib.GlobalWorkerOptions.workerSrc = '';
 
 export interface ParsedPDF {
   fullText: string;
