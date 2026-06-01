@@ -8,6 +8,8 @@ export default defineConfig({
   base: '/paper-assistant/',
   build: {
     target: 'es2020', // Safari 14+ compatibility
-    modulePreload: false, // disable Vite module preload polyfill (can cause issues in Safari)
+    modulePreload: false,
+    // Generate source maps for debugging Safari/QQ Browser errors
+    sourcemap: true,
   },
 })

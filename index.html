@@ -9,6 +9,28 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Global error capture for debugging -->
+    <script>
+      window.addEventListener('error', function(e) {
+        var msg = '[Paper Assistant Error]\n';
+        msg += 'Message: ' + e.message + '\n';
+        msg += 'File: ' + e.filename + '\n';
+        msg += 'Line: ' + e.lineno + ':' + e.colno + '\n';
+        msg += 'Stack: ' + (e.error && e.error.stack ? e.error.stack : 'N/A');
+        console.error(msg);
+        // Show visible alert on first error
+        if (!window.__paperErrorShown) {
+          window.__paperErrorShown = true;
+          alert(msg);
+        }
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        var msg = '[Paper Assistant Promise Error]\n';
+        msg += 'Reason: ' + (e.reason ? (e.reason.message || String(e.reason)) : 'N/A') + '\n';
+        msg += 'Stack: ' + (e.reason && e.reason.stack ? e.reason.stack : 'N/A');
+        console.error(msg);
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
