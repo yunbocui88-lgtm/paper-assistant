@@ -320,74 +320,68 @@ export function PaperCard({ paper, apiConfig, onUpdate, fieldOrder = [], onField
                 onDragEnter={() => handleFieldDragEnter(key)}
                 onDragEnd={handleFieldDragEnd}
                 onDragOver={e => e.preventDefault()}
-                onClick={isCustom ? () => copyField(key) : undefined}
-                className={`group relative px-3 py-2 rounded-lg border cursor-pointer transition-all hover:bg-blue-50 hover:border-blue-200 ${
+                className={`group relative px-3 py-2 rounded-lg border transition-all hover:bg-blue-50 hover:border-blue-200 ${
                   copiedField === key ? 'bg-green-50 border-green-300' : 'bg-gray-50 border-gray-100'
                 } ${isClampable ? 'col-span-full' : ''} ${
                   isDragged ? 'opacity-30 scale-90' : ''
                 } ${
                   isDragOver ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.35)]' : ''
                 }`}
-                title="拖拽可排序 · 点击复制"
+                title="拖拽可排序"
               >
                 {/* Blue pulse insertion bar — shown on drop target */}
                 {isDragOver && (
                   <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500 rounded-l-lg animate-pulse" />
                 )}
-                {/* Drag handle */}
+                {/* Drag handle — top-left */}
                 <div className="absolute top-1 left-1 w-5 h-5 hidden group-hover:flex items-center justify-center rounded text-gray-300 hover:text-gray-500 cursor-grab active:cursor-grabbing text-xs leading-none select-none" title="拖拽排序">
                   ⠿
                 </div>
-                {isCustom ? (
-                  <>
-                    <div onClick={() => copyField(key)}>
-                      <div className="text-xs text-gray-400 mb-0.5">{key}</div>
-                      <div className={`text-sm text-gray-800 break-words ${
-                        isClampable && !isExpanded ? 'line-clamp-3' : ''
-                      }`}>
-                        {value || <span className="text-gray-300 italic">无数据</span>}
-                      </div>
-                    </div>
-                    {isClampable && (
-                      <button
-                        onClick={(e) => { e.stopPropagation(); toggleExpand(key); }}
-                        className="text-xs text-blue-500 hover:text-blue-700 mt-1"
-                      >
-                        {isExpanded ? '▲ 收起' : '▼ 展开'}
-                      </button>
-                    )}
-                    <button
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        const next = { ...paper.custom_fields };
-                        delete next[key];
-                        const updated = { ...paper, custom_fields: next };
-                        await db.papers.put(updated);
-                        onUpdate(updated);
-                      }}
-                      className="absolute top-1 right-1 w-5 h-5 hidden group-hover:flex items-center justify-center rounded-full bg-white border border-gray-200 hover:bg-red-50 hover:border-red-300 hover:text-red-500 text-gray-400 text-xs leading-none shadow-sm"
-                      title={`删除字段 "${key}"`}
-                    >
-                      ×
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="text-xs text-gray-400 mb-0.5">{def!.label}</div>
-                    <div className={`text-sm text-gray-800 break-words ${
-                      isClampable && !isExpanded ? 'line-clamp-3' : ''
-                    }`}>
-                      {value || <span className="text-gray-300 italic">无数据</span>}
-                    </div>
-                    {isClampable && (
-                      <button
-                        onClick={(e) => { e.stopPropagation(); toggleExpand(def!.key); }}
-                        className="text-xs text-blue-500 hover:text-blue-700 mt-1"
-                      >
-                        {isExpanded ? '▲ 收起' : '▼ 展开'}
-                      </button>
-                    )}
-                  </>
+                {/* Copy button — top-right, all fields */}
+                <button
+                  onClick={(e) => { e.stopPropagation(); copyField(key); }}
+                  className={`absolute top-1 right-1 w-5 h-5 hidden group-hover:flex items-center justify-center rounded-full text-xs leading-none shadow-sm transition-colors ${
+                    isCustom ? 'right-7' : 'right-1'
+                  } ${
+                    copiedField === key
+                      ? 'bg-green-500 text-white'
+                      : 'bg-white border border-gray-200 text-gray-400 hover:text-blue-500 hover:border-blue-300'
+                  }`}
+                  title="复制字段内容"
+                >
+                  {copiedField === key ? '✓' : '📋'}
+                </button>
+                {/* Delete button — top-right, custom fields only */}
+                {isCustom && (
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      const next = { ...paper.custom_fields };
+                      delete next[key];
+                      const updated = { ...paper, custom_fields: next };
+                      await db.papers.put(updated);
+                      onUpdate(updated);
+                    }}
+                    className="absolute top-1 right-1 w-5 h-5 hidden group-hover:flex items-center justify-center rounded-full bg-white border border-gray-200 hover:bg-red-50 hover:border-red-300 hover:text-red-500 text-gray-400 text-xs leading-none shadow-sm"
+                    title={`删除字段 "${key}"`}
+                  >
+                    ×
+                  </button>
+                )}
+                {/* Field content */}
+                <div className="text-xs text-gray-400 mb-0.5">{isCustom ? key : def!.label}</div>
+                <div className={`text-sm text-gray-800 break-words ${
+                  isClampable && !isExpanded ? 'line-clamp-3' : ''
+                }`}>
+                  {value || <span className="text-gray-300 italic">无数据</span>}
+                </div>
+                {isClampable && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); toggleExpand(key); }}
+                    className="text-xs text-blue-500 hover:text-blue-700 mt-1"
+                  >
+                    {isExpanded ? '▲ 收起' : '▼ 展开'}
+                  </button>
                 )}
               </div>
             );
