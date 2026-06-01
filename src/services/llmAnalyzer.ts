@@ -42,6 +42,14 @@ function loadFieldOrder(projectId?: string): string[] {
 }
 
 function buildAnalysisPrompt(customFieldKeys: string[], disabledStandardFields: Set<string>, projectId?: string): string {
+  // Defensive: ensure parameters are valid (Safari Set serialization can lose prototype)
+  if (!disabledStandardFields || typeof disabledStandardFields.has !== 'function') {
+    disabledStandardFields = new Set<string>();
+  }
+  if (!Array.isArray(customFieldKeys)) {
+    customFieldKeys = [];
+  }
+
   const fieldOrder = loadFieldOrder(projectId);
   const enabledStandard = ALL_STANDARD_FIELDS.filter(([key]) => !disabledStandardFields.has(key));
   const allEnabledKeys = new Set([
@@ -198,6 +206,17 @@ export async function analyzePaper(
   }
 }
 
+/** Creates an AbortSignal that fires after `ms` milliseconds. Works in all browsers. */
+function createTimeoutSignal(ms: number): AbortSignal {
+  // Native AbortSignal.timeout available in Safari 16+, Chrome 103+, Firefox 100+
+  if (typeof AbortSignal.timeout === 'function') {
+    return AbortSignal.timeout(ms);
+  }
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(new DOMException('Timeout', 'TimeoutError')), ms);
+  return controller.signal;
+}
+
 export async function translatePaperFields(
   paper: Paper,
   config: ApiConfig
@@ -229,7 +248,7 @@ export async function translatePaperFields(
       temperature: 0.1,
       max_tokens: 4096,
     }),
-    signal: AbortSignal.timeout(60000),
+    signal: createTimeoutSignal(60000),
   });
 
   if (!response.ok) {

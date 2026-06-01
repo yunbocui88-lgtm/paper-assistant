@@ -1,9 +1,8 @@
 import * as pdfjsLib from 'pdfjs-dist';
+import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
+// Use Vite-resolved URL for reliable worker loading across all browsers (including Safari)
+pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
 
 export interface ParsedPDF {
   fullText: string;
