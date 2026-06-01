@@ -5,6 +5,53 @@
  * For older browsers (especially Safari < 16), we provide fallbacks.
  */
 
+// ── Array.prototype.at() / String.prototype.at() ──────────────────────
+// Safari 15.4+, Chrome 92+, Firefox 90+. Used by pdfjs-dist (15+ times).
+if (typeof Array.prototype.at !== 'function') {
+  Array.prototype.at = function (index: number) {
+    const len = this.length;
+    const relativeIndex = index < 0 ? len + index : index;
+    if (relativeIndex < 0 || relativeIndex >= len) return undefined;
+    return this[relativeIndex];
+  };
+}
+if (typeof String.prototype.at !== 'function') {
+  String.prototype.at = function (index: number) {
+    const len = this.length;
+    const relativeIndex = index < 0 ? len + index : index;
+    if (relativeIndex < 0 || relativeIndex >= len) return undefined;
+    return this[relativeIndex];
+  };
+}
+
+// ── Array.prototype.findLast() / findLastIndex() ────────────────────────
+// Safari 15.4+, Chrome 97+, Firefox 104+. Used by pdfjs-dist.
+if (typeof Array.prototype.findLast !== 'function') {
+  Array.prototype.findLast = function (predicate: any, thisArg?: any) {
+    for (let i = this.length - 1; i >= 0; i--) {
+      if (i in this && predicate.call(thisArg, this[i], i, this)) return this[i];
+    }
+    return undefined;
+  };
+}
+if (typeof Array.prototype.findLastIndex !== 'function') {
+  Array.prototype.findLastIndex = function (predicate: any, thisArg?: any) {
+    for (let i = this.length - 1; i >= 0; i--) {
+      if (i in this && predicate.call(thisArg, this[i], i, this)) return i;
+    }
+    return -1;
+  };
+}
+
+// ── structuredClone(obj) ───────────────────────────────────────────────
+// Safari 15.4+, Chrome 98+, Firefox 94+. Used by pdfjs-dist for annotations.
+const G: any = typeof globalThis !== 'undefined' ? globalThis : window;
+if (typeof G.structuredClone !== 'function') {
+  G.structuredClone = function (obj: any, _options?: any) {
+    return JSON.parse(JSON.stringify(obj));
+  };
+}
+
 // ── Promise.withResolvers() ──────────────────────────────────────────────
 // Safari 17.4+, Chrome 119+, Firefox 121+. Used extensively by pdfjs-dist.
 if (typeof (Promise as any).withResolvers !== 'function') {
