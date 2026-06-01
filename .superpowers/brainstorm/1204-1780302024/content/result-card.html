@@ -1,0 +1,119 @@
+<h2>分析结果怎么展示？</h2>
+<p class="subtitle">20+ 个字段，3 种排列方式。考虑阅读体验：扫一眼能不能快速找到想要的信息？</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:500px">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:4px">When LLMs Meet Academic Papers: A Survey on Automated Literature Analysis</div>
+        <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="font-size:11px;color:#2563eb;background:#eff6ff;padding:2px 8px;border-radius:10px">2024</span>
+          <span style="font-size:11px;color:#059669;background:#ecfdf5;padding:2px 8px;border-radius:10px">SSCI Q1</span>
+          <span style="font-size:11px;color:#6b7280">Zhang, Li & Wang</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
+          <div><span style="color:#888">模型类型</span><br><span style="color:#333">BERT + LSTM</span></div>
+          <div><span style="color:#888">研究方法</span><br><span style="color:#333">实证研究</span></div>
+          <div><span style="color:#888">研究理论</span><br><span style="color:#333">TAM理论</span></div>
+          <div><span style="color:#888">领域</span><br><span style="color:#333">信息管理</span></div>
+          <div><span style="color:#888">自变量</span><br><span style="color:#333">感知有用性</span></div>
+          <div><span style="color:#888">因变量</span><br><span style="color:#333">使用意向</span></div>
+          <div><span style="color:#888">中介变量</span><br><span style="color:#333">满意度</span></div>
+          <div><span style="color:#888">调节变量</span><br><span style="color:#333">经验水平</span></div>
+          <div><span style="color:#888">研究主体</span><br><span style="color:#333">大学生</span></div>
+          <div><span style="color:#888">文章类型</span><br><span style="color:#333">实证论文</span></div>
+        </div>
+        <div style="margin-top:12px;padding-top:8px;border-top:1px solid #f0f0f0">
+          <div style="font-size:11px;color:#333;line-height:1.5"><span style="color:#888">💡 结论 </span>AI辅助工具显著提升文献分析效率，但用户信任度是中介因素</div>
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:#888">🏷️ 特色：跨学科分析框架 | 人机协作视角</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 网格卡片</h3>
+      <p>标签行（年份/期刊/作者）在上，核心字段两列网格排列，结论单独一行，特色标签收尾。信息密度高，单张卡片可览全貌</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:500px">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:4px">When LLMs Meet Academic Papers</div>
+        <div style="display:flex;gap:6px;margin-bottom:7px;flex-wrap:wrap">
+          <span style="font-size:10px;background:#f3f4f6;padding:1px 6px;border-radius:4px">2024</span>
+          <span style="font-size:10px;background:#f3f4f6;padding:1px 6px;border-radius:4px">SSCI Q1</span>
+          <span style="font-size:10px;background:#f3f4f6;padding:1px 6px;border-radius:4px">信息管理</span>
+          <span style="font-size:10px;background:#f3f4f6;padding:1px 6px;border-radius:4px">实证论文</span>
+        </div>
+        <div style="font-size:11px;color:#888;margin-bottom:10px">Zhang, Li & Wang</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <div style="display:flex;align-items:center;gap:8px;background:#fafafa;border-radius:6px;padding:6px 10px">
+            <span style="color:#888;min-width:70px;font-weight:500">🧪 研究模型</span>
+            <span style="color:#333;flex:1">TAM扩展模型 (感知有用性→满意度→使用意向)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 10px">
+            <span style="color:#888;min-width:70px;font-weight:500">📐 研究方法</span>
+            <span style="color:#333;flex:1">问卷调查 + 结构方程模型</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:#fafafa;border-radius:6px;padding:6px 10px">
+            <span style="color:#888;min-width:70px;font-weight:500">📊 变量关系</span>
+            <span style="color:#333;flex:1">IV: 感知有用性 → DV: 使用意向 | Med: 满意度 | Mod: 经验</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 10px">
+            <span style="color:#888;min-width:70px;font-weight:500">💡 结论</span>
+            <span style="color:#333;flex:1">AI辅助显著提升效率，信任度为中介因素</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 列表行</h3>
+      <p>每个字段占一行，斑马条纹分隔。信息层级清晰，适合逐一细读。变量关系合并在同一行，减少视觉跳跃</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:500px">
+        <div style="display:flex;gap:12px">
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:4px">When LLMs Meet Academic Papers</div>
+            <div style="font-size:11px;color:#888;margin-bottom:10px">Zhang et al. · 2024 · SSCI Q1</div>
+            <details open style="margin-bottom:8px"><summary style="font-size:11px;font-weight:600;color:#2563eb;cursor:pointer">📋 基本信息</summary>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:11px;padding:6px 0">
+                <div><span style="color:#888">作者:</span> Zhang, Li & Wang</div>
+                <div><span style="color:#888">年份:</span> 2024</div>
+                <div><span style="color:#888">期刊级别:</span> SSCI Q1</div>
+                <div><span style="color:#888">领域:</span> 信息管理</div>
+                <div><span style="color:#888">文章类型:</span> 实证论文</div>
+                <div><span style="color:#888">研究主体:</span> 大学生</div>
+              </div>
+            </details>
+            <details style="margin-bottom:8px"><summary style="font-size:11px;font-weight:600;color:#2563eb;cursor:pointer">🔬 理论·方法·模型</summary>
+              <div style="font-size:11px;padding:6px 0;color:#333">
+                <div style="margin-bottom:4px"><span style="color:#888">理论:</span> TAM理论</div>
+                <div style="margin-bottom:4px"><span style="color:#888">方法:</span> 问卷调查 + SEM</div>
+                <div style="margin-bottom:4px"><span style="color:#888">模型类型:</span> 结构方程模型</div>
+              </div>
+            </details>
+            <details style="margin-bottom:8px"><summary style="font-size:11px;font-weight:600;color:#2563eb;cursor:pointer">📊 变量与关系</summary>
+              <div style="font-size:11px;padding:6px 0;color:#333">
+                <div style="margin-bottom:4px"><span style="color:#888">自变量:</span> 感知有用性</div>
+                <div style="margin-bottom:4px"><span style="color:#888">因变量:</span> 使用意向</div>
+                <div style="margin-bottom:4px"><span style="color:#888">中介变量:</span> 满意度</div>
+                <div><span style="color:#888">调节变量:</span> 经验水平</div>
+              </div>
+            </details>
+          </div>
+        </div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0;font-size:11px;color:#333">
+          <span style="color:#888">💡 结论:</span> AI辅助显著提升效率，信任度为中介因素
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — 折叠分组</h3>
+      <p>字段按"基本信息/理论方法/变量关系"等分组，默认折叠，点击展开。干净整洁，适合快速定位某一类信息</p>
+    </div>
+  </div>
+</div>

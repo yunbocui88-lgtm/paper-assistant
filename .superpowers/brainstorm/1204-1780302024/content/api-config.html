@@ -1,0 +1,94 @@
+<h2>API 配置页面设计</h2>
+<p class="subtitle">用户完全自定义 LLM 接口，兼容任意 OpenAI 格式 API</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">📋 API 配置表单</div>
+    <div class="mockup-body">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:440px">
+        <!-- 已保存的 API 列表 -->
+        <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:8px">已配置的 API</div>
+        <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="font-size:11px;padding:5px 10px;background:#2563eb;color:#fff;border-radius:16px;cursor:pointer">DeepSeek V3 ✓</span>
+          <span style="font-size:11px;padding:5px 10px;background:#f3f4f6;color:#666;border-radius:16px;cursor:pointer">Claude 4.5</span>
+          <span style="font-size:11px;padding:5px 10px;background:#f3f4f6;color:#666;border-radius:16px;cursor:pointer">+ 添加</span>
+        </div>
+        <!-- 当前编辑的表单 -->
+        <div style="border-top:1px solid #f0f0f0;padding-top:12px">
+          <div style="font-size:11px;color:#2563eb;font-weight:600;margin-bottom:10px">编辑: DeepSeek V3</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div>
+              <div style="font-size:11px;color:#888;margin-bottom:3px">名称（自定义标签）</div>
+              <input style="width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;box-sizing:border-box" value="DeepSeek V3" readonly>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#888;margin-bottom:3px">API Endpoint URL</div>
+              <input style="width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;box-sizing:border-box;font-family:monospace" value="https://api.deepseek.com/v1/chat/completions" readonly>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#888;margin-bottom:3px">模型名称</div>
+              <input style="width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;box-sizing:border-box" value="deepseek-chat" readonly>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#888;margin-bottom:3px">API Key</div>
+              <input type="password" style="width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;box-sizing:border-box;font-family:monospace" value="sk-••••••••••••••••••••" readonly>
+              <div style="font-size:10px;color:#888;margin-top:2px">🔒 仅存储在本地浏览器</div>
+            </div>
+            <!-- 高级选项折叠 -->
+            <details style="font-size:11px">
+              <summary style="color:#888;cursor:pointer">⚙️ 高级选项</summary>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="color:#888;min-width:50px">Temperature</span>
+                  <input type="range" style="flex:1" value="30">
+                  <span style="color:#333;min-width:30px">0.3</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="color:#888;min-width:50px">Max Tokens</span>
+                  <input style="width:60px;padding:4px 8px;border:1px solid #e5e7eb;border-radius:4px;font-size:11px" value="4096">
+                </div>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+                  <input type="checkbox" checked style="accent-color:#2563eb">
+                  <span style="color:#666">启用流式输出（边分析边显示）</span>
+                </label>
+              </div>
+            </details>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <div style="flex:1;text-align:center;padding:8px;background:#fff;border:1px solid #059669;color:#059669;border-radius:6px;font-size:12px;cursor:pointer">🔌 测试连接</div>
+            <div style="flex:1;text-align:center;padding:8px;background:#2563eb;color:#fff;border-radius:6px;font-size:12px;cursor:pointer">💾 保存</div>
+          </div>
+          <div style="margin-top:8px;padding:6px 8px;background:#f0fdf4;border-radius:4px;font-size:10px;color:#059669">✅ 连接成功 — DeepSeek V3 可用</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">🌐 兼容的 API 格式</div>
+    <div class="mockup-body">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);font-size:12px;line-height:1.8;color:#333">
+        <p style="margin-top:0">兼容所有 <b>OpenAI Chat Completions 格式</b> 的 API：</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">OpenAI</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">DeepSeek</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">Claude API</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">Groq</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">Together AI</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">Ollama</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">vLLM</span>
+          <span style="font-size:11px;padding:3px 8px;background:#f3f4f6;border-radius:4px">自定义...</span>
+        </div>
+        <div style="background:#fafafa;border-radius:6px;padding:10px;font-size:10px">
+          <div style="color:#888;margin-bottom:4px">请求格式（自动适配）：</div>
+          <code style="color:#666;white-space:pre-wrap">POST {endpoint}
+Authorization: Bearer {api_key}
+{"model":"...","messages":[...],"temperature":0.3}</code>
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:#888">
+          💡 支持同时配置多个 API，分析时自由切换，互不干扰
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

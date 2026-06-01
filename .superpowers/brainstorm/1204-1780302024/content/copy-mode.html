@@ -1,0 +1,127 @@
+<h2>哪种复制方式最顺手？</h2>
+<p class="subtitle">这些交互可以叠加在任意布局上，不冲突</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:500px">
+        <div style="font-size:15px;font-weight:700;color:#111;margin-bottom:10px">When LLMs Meet Academic Papers</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;background:#fafafa;cursor:pointer" onclick="this.style.background='#dbeafe'">
+            <span><span style="color:#888">👤 作者</span> &nbsp;Zhang, Li & Wang</span>
+            <span style="font-size:10px;color:#2563eb;opacity:0.7">📋 点击复制</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;cursor:pointer" onclick="this.style.background='#dbeafe'">
+            <span><span style="color:#888">📅 年份</span> &nbsp;2024</span>
+            <span style="font-size:10px;color:#2563eb;opacity:0.7">📋 点击复制</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;cursor:pointer" onclick="this.style.background='#dbeafe'">
+            <span><span style="color:#888">💡 结论</span> &nbsp;AI辅助工具显著提升文献分析效率</span>
+            <span style="font-size:10px;color:#2563eb;opacity:0.7">📋 点击复制</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;cursor:pointer" onclick="this.style.background='#dbeafe'">
+            <span><span style="color:#888">🧪 研究方法</span> &nbsp;问卷调查 + 结构方程模型</span>
+            <span style="font-size:10px;color:#2563eb;opacity:0.7">📋 点击复制</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;cursor:pointer" onclick="this.style.background='#dbeafe'">
+            <span><span style="color:#888">📊 模型类型</span> &nbsp;TAM扩展模型</span>
+            <span style="font-size:10px;color:#2563eb;opacity:0.7">📋 点击复制</span>
+          </div>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <div style="flex:1;text-align:center;padding:8px;background:#2563eb;color:#fff;border-radius:6px;font-size:12px;cursor:pointer">📄 复制全部（格式化）</div>
+          <div style="flex:1;text-align:center;padding:8px;background:#059669;color:#fff;border-radius:6px;font-size:12px;cursor:pointer">📊 复制为表格行</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 点击即复制 + 批量按钮</h3>
+      <p>每个字段都是按钮，点击即复制到剪贴板（有短暂高亮反馈）。底部两个大按钮：<b>复制全部</b>（带标签的格式化文本）和<b>复制为表格行</b>（直接粘贴到 Excel/Word 表格）</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:500px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-size:15px;font-weight:700;color:#111">When LLMs Meet Academic Papers</div>
+          <div style="display:flex;gap:4px">
+            <span style="font-size:10px;padding:3px 8px;background:#f3f4f6;border-radius:4px;cursor:pointer">☑ 全选</span>
+            <span style="font-size:10px;padding:3px 8px;background:#2563eb;color:#fff;border-radius:4px;cursor:pointer">📋 复制选中</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;font-size:12px">
+          <label style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;cursor:pointer">
+            <input type="checkbox" checked style="accent-color:#2563eb">
+            <span style="color:#888;min-width:60px">作者</span>
+            <span style="color:#333">Zhang, Li & Wang</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;cursor:pointer">
+            <input type="checkbox" checked style="accent-color:#2563eb">
+            <span style="color:#888;min-width:60px">年份</span>
+            <span style="color:#333">2024</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;cursor:pointer">
+            <input type="checkbox" style="accent-color:#2563eb">
+            <span style="color:#888;min-width:60px">结论</span>
+            <span style="color:#333">AI辅助显著提升效率</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;cursor:pointer">
+            <input type="checkbox" checked style="accent-color:#2563eb">
+            <span style="color:#888;min-width:60px">方法</span>
+            <span style="color:#333">问卷调查 + SEM</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;cursor:pointer">
+            <input type="checkbox" style="accent-color:#2563eb">
+            <span style="color:#888;min-width:60px">模型图</span>
+            <span style="color:#888;font-style:italic">（含图片，不适用文本复制）</span>
+          </label>
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:#888;text-align:center">勾选需要的字段 → 一键复制 → 粘贴到任何地方</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 勾选 + 批量复制</h3>
+      <p>每个字段前有复选框，顶部"全选"和"复制选中"。可以按需只复制某些字段（比如写文献综述时只要标题+作者+年份+结论）。含图片的字段自动灰掉提示</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="display:flex;gap:8px">
+      <div style="flex:1;background:#fff;border-radius:8px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:240px">
+        <div style="font-size:13px;font-weight:700;color:#111;margin-bottom:8px">When LLMs Meet...</div>
+        <div style="font-size:10px;line-height:1.6">
+          <div style="display:flex;gap:4px">
+            <span style="color:#888;min-width:36px">作者:</span><span style="color:#333;cursor:pointer;border-bottom:1px dashed #2563eb" title="点击复制">Zhang et al.</span>
+          </div>
+          <div style="display:flex;gap:4px">
+            <span style="color:#888;min-width:36px">年份:</span><span style="color:#333;cursor:pointer;border-bottom:1px dashed #2563eb" title="点击复制">2024</span>
+          </div>
+          <div style="display:flex;gap:4px">
+            <span style="color:#888;min-width:36px">方法:</span><span style="color:#333;cursor:pointer;border-bottom:1px dashed #2563eb" title="点击复制">问卷+SEM</span>
+          </div>
+          <div style="display:flex;gap:4px">
+            <span style="color:#888;min-width:36px">IV:</span><span style="color:#333;cursor:pointer;border-bottom:1px dashed #2563eb" title="点击复制">感知有用性</span>
+          </div>
+          <div style="display:flex;gap:4px">
+            <span style="color:#888;min-width:36px">DV:</span><span style="color:#333;cursor:pointer;border-bottom:1px dashed #2563eb" title="点击复制">使用意向</span>
+          </div>
+          <div style="display:flex;gap:4px">
+            <span style="color:#888;min-width:36px">结论:</span><span style="color:#333;cursor:pointer;border-bottom:1px dashed #2563eb" title="点击复制">AI辅助...</span>
+          </div>
+          <div style="margin-top:8px;padding-top:4px;border-top:1px solid #f0f0f0">
+            <div style="background:#f9fafb;padding:4px 6px;border-radius:4px;font-size:9px;color:#666;font-family:monospace;white-space:pre-wrap">Zhang et al. (2024). 问卷+SEM. IV:感知有用性 → DV:使用意向. 结论: AI辅助显著提升效率.</div>
+            <div style="font-size:9px;color:#2563eb;text-align:center;margin-top:4px;cursor:pointer">📋 一键复制整句摘要</div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#888;text-align:center">
+        <div>👆<br>每个值都可单独点击复制<br><br>底部自动生成<br>"一句话摘要"<br>方便粘贴到论文里</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — 虚线高亮 + 智能摘要</h3>
+      <p>每个字段值用虚线下划线标注可点击复制。底部自动生成<b>一句话自然语言摘要</b>（类似"Zhang et al. (2024) 采用问卷+SEM方法……"），适合直接粘贴到论文中作为文献引用</p>
+    </div>
+  </div>
+</div>

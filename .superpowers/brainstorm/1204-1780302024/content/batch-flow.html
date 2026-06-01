@@ -1,0 +1,149 @@
+<h2>批量处理流程设计</h2>
+<p class="subtitle">拖入多篇论文 → 排队 → 自动分析 → 结果实时呈现</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:460px">
+        <!-- 拖拽区 -->
+        <div style="border:2px dashed #cbd5e1;border-radius:8px;padding:16px;text-align:center;background:#fafbfc;margin-bottom:12px">
+          <div style="font-size:28px">📄+📄+📄</div>
+          <div style="font-size:13px;font-weight:600;color:#333">已添加 8 篇论文</div>
+          <div style="font-size:11px;color:#888">继续拖入或点击添加 | 支持 PDF / 网页链接</div>
+        </div>
+        <!-- 进度条 -->
+        <div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#666;margin-bottom:4px">
+            <span>🔄 整体进度</span>
+            <span>3 / 8 完成</span>
+          </div>
+          <div style="height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden">
+            <div style="height:6px;width:37.5%;background:#2563eb;border-radius:3px"></div>
+          </div>
+        </div>
+        <!-- 论文列表 -->
+        <div style="display:flex;flex-direction:column;gap:4px;max-height:340px;overflow-y:auto">
+          <!-- 已完成 -->
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f0fdf4;border-radius:6px">
+            <span style="font-size:16px">✅</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;font-weight:500;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">When LLMs Meet Academic Papers: A Survey on...</div>
+              <div style="font-size:10px;color:#888">Zhang et al. · 2024 · SSCI Q1</div>
+            </div>
+            <span style="font-size:10px;color:#059669;white-space:nowrap">已完成</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#f0fdf4;border-radius:6px">
+            <span style="font-size:16px">✅</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;font-weight:500;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Deep Learning Approaches for Text Classification</div>
+              <div style="font-size:10px;color:#888">Chen & Wu · 2023 · SCI Q1</div>
+            </div>
+            <span style="font-size:10px;color:#059669;white-space:nowrap">已完成</span>
+          </div>
+          <!-- 正在处理 -->
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe">
+            <span style="font-size:16px">⚡</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;font-weight:500;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">A Systematic Review of Machine Learning in Healthcare</div>
+              <div style="font-size:10px;color:#888">正在调用 LLM 分析中...</div>
+            </div>
+            <div style="width:40px;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden">
+              <div style="width:60%;height:4px;background:#2563eb;animation:pulse"></div>
+            </div>
+          </div>
+          <!-- 排队中 -->
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fafafa;border-radius:6px;opacity:0.7">
+            <span style="font-size:16px">⏳</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Attention Mechanisms in Neural Networks</div>
+              <div style="font-size:10px;color:#888">等待中 · 第 4 篇</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fafafa;border-radius:6px;opacity:0.7">
+            <span style="font-size:16px">⏳</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Transfer Learning in Low-Resource NLP Tasks</div>
+              <div style="font-size:10px;color:#888">等待中 · 第 5 篇</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fafafa;border-radius:6px;opacity:0.7">
+            <span style="font-size:16px">⏳</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Graph Neural Networks for Citation Analysis</div>
+              <div style="font-size:10px;color:#888">等待中 · 第 6 篇</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fafafa;border-radius:6px;opacity:0.7">
+            <span style="font-size:16px">⏳</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Natural Language Understanding: A Comprehensive Survey</div>
+              <div style="font-size:10px;color:#888">等待中 · 第 7 篇</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fafafa;border-radius:6px;opacity:0.7">
+            <span style="font-size:16px">⏳</span>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Ethics and Bias in Large Language Models</div>
+              <div style="font-size:10px;color:#888">等待中 · 第 8 篇</div>
+            </div>
+          </div>
+        </div>
+        <!-- 底部操作栏 -->
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <div style="flex:1;text-align:center;padding:8px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#666;cursor:pointer">⏸️ 暂停</div>
+          <div style="flex:1;text-align:center;padding:8px;background:#059669;color:#fff;border-radius:6px;font-size:12px;cursor:pointer">📊 导出全部 Excel</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 列表式队列（推荐）</h3>
+      <p>论文垂直排列，三色标记状态：✅已完成 / ⚡处理中 / ⏳等待中。顶部整体进度条，底部暂停和导出按钮。每处理完一篇实时出现结果，可点击展开查看</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1);max-width:460px">
+        <!-- 轨道式进度 -->
+        <div style="margin-bottom:16px;text-align:center">
+          <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:6px">🔄 正在分析第 3/8 篇</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap">
+            <span style="width:24px;height:24px;border-radius:50%;background:#059669;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">✓</span>
+            <span style="width:20px;height:2px;background:#059669"></span>
+            <span style="width:24px;height:24px;border-radius:50%;background:#059669;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center">✓</span>
+            <span style="width:20px;height:2px;background:#dbeafe"></span>
+            <span style="width:30px;height:30px;border-radius:50%;background:#2563eb;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;animation:pulse;box-shadow:0 0 0 4px #dbeafe">3</span>
+            <span style="width:20px;height:2px;background:#e5e7eb"></span>
+            <span style="width:24px;height:24px;border-radius:50%;background:#e5e7eb;color:#999;font-size:11px;display:flex;align-items:center;justify-content:center">4</span>
+            <span style="width:20px;height:2px;background:#e5e7eb"></span>
+            <span style="width:24px;height:24px;border-radius:50%;background:#e5e7eb;color:#999;font-size:11px;display:flex;align-items:center;justify-content:center">5</span>
+            <span style="font-size:10px;color:#888">···</span>
+          </div>
+        </div>
+        <!-- 当前处理卡片 -->
+        <div style="border:2px solid #2563eb;border-radius:8px;padding:14px;background:#f8faff;margin-bottom:12px">
+          <div style="font-size:12px;font-weight:600;color:#2563eb;margin-bottom:6px">⚡ 当前正在分析</div>
+          <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:4px">A Systematic Review of ML in Healthcare</div>
+          <div style="font-size:11px;color:#888;margin-bottom:8px">PDF · 23 页 · 正在调用 DeepSeek V3...</div>
+          <div style="height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden">
+            <div style="width:65%;height:6px;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:3px"></div>
+          </div>
+        </div>
+        <!-- 预览最近完成 -->
+        <div style="font-size:11px;color:#888;margin-bottom:6px">最近完成</div>
+        <div style="padding:10px;background:#f0fdf4;border-radius:6px;margin-bottom:4px;font-size:11px;display:flex;justify-content:space-between">
+          <span style="color:#333">When LLMs Meet Academic Papers</span>
+          <span style="color:#059669">✓ 已分析</span>
+        </div>
+        <div style="padding:10px;background:#f0fdf4;border-radius:6px;font-size:11px;display:flex;justify-content:space-between">
+          <span style="color:#333">Deep Learning for Text Classification</span>
+          <span style="color:#059669">✓ 已分析</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 步骤轨道 + 聚焦当前</h3>
+      <p>顶部横向步骤轨道，下方聚焦当前正在分析的论文（大卡片 + 详细状态）。适合关注每篇分析过程，完成后自动切下一篇</p>
+    </div>
+  </div>
+</div>

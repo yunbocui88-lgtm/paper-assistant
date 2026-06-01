@@ -1,0 +1,103 @@
+<h2>复制格式：解决 Excel 按列粘贴</h2>
+<p class="subtitle">同一份数据，3 种复制格式。关键是：列间用 Tab 分隔，Excel 就能识别</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">📋 点击复制按钮时弹出选择</div>
+    <div class="mockup-body">
+      <div style="background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.1)">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px;color:#111">复制 "When LLMs Meet Academic Papers"</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px 12px;background:#f0f7ff;border-radius:6px;cursor:pointer;border:1px solid #dbeafe">
+            <div style="font-size:13px;font-weight:600;color:#2563eb">📊 复制为表格行（粘贴到 Excel 列）</div>
+            <div style="font-size:10px;color:#888;margin-top:2px">Tab 分隔，粘贴后每个字段占一列</div>
+            <div style="margin-top:4px;font-size:9px;font-family:monospace;color:#999;background:#fff;padding:4px 6px;border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">When LLMs... [TAB] Zhang et al. [TAB] 2024 [TAB] SSCI Q1 [TAB] 实证研究 [TAB] ...</div>
+          </div>
+          <div style="padding:10px 12px;background:#f5f5f5;border-radius:6px;cursor:pointer">
+            <div style="font-size:13px;font-weight:600;color:#333">📝 复制为标签文本（粘贴到 Word/笔记）</div>
+            <div style="font-size:10px;color:#888;margin-top:2px">每行一个字段，带标签，适合阅读</div>
+            <div style="margin-top:4px;font-size:9px;font-family:monospace;color:#999;background:#fff;padding:4px 6px;border-radius:3px">作者: Zhang, Li & Wang<br>年份: 2024<br>期刊级别: SSCI Q1<br>...</div>
+          </div>
+          <div style="padding:10px 12px;background:#f5f5f5;border-radius:6px;cursor:pointer">
+            <div style="font-size:13px;font-weight:600;color:#333">📄 复制为自然语言摘要</div>
+            <div style="font-size:10px;color:#888;margin-top:2px">适合直接粘贴到论文引言/文献综述</div>
+            <div style="margin-top:4px;font-size:9px;font-family:monospace;color:#999;background:#fff;padding:4px 6px;border-radius:3px">Zhang et al. (2024) 采用问卷调查与结构方程模型，基于TAM理论研究了感知有用性对使用意向的影响，发现满意度起中介作用。该研究发表在SSCI Q1期刊。</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:#888;text-align:center">💡 批量选中多篇论文后，每篇一行，自动生成完整表格</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">📊 粘贴到 Excel 后的效果</div>
+    <div class="mockup-body">
+      <div style="overflow-x:auto;font-size:10px">
+        <table style="border-collapse:collapse;width:100%;min-width:700px">
+          <tr style="background:#2563eb;color:#fff">
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">标题</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">作者</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">年份</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">期刊级别</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">方法</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">理论</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">模型类型</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">自变量</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">因变量</th>
+            <th style="padding:4px 6px;border:1px solid #1d4ed8;white-space:nowrap">结论</th>
+          </tr>
+          <tr style="background:#fff">
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">When LLMs Meet...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">Zhang et al.</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">2024</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">SSCI Q1</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">问卷+SEM</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">TAM理论</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">结构方程</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">感知有用性</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">使用意向</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">AI辅助显著提升...</td>
+          </tr>
+          <tr style="background:#f9fafb">
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">Deep Learning for...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">Chen & Wu</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">2023</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">SCI Q1</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">实验法</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">深度学习</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">CNN+Transformer</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">模型架构</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">准确率</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">Transformer优于...</td>
+          </tr>
+          <tr style="background:#fff">
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+            <td style="padding:4px 6px;border:1px solid #e5e7eb;white-space:nowrap">...</td>
+          </tr>
+        </table>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:#333;text-align:center">
+        ✅ 批量选中 3 篇论文 → 点击"复制为表格行" → 到 Excel Ctrl+V<br>
+        自动生成表头 + 数据行，完美对齐
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:20px">
+  <h3>📐 实现原理（极简）</h3>
+  <div style="background:#f9fafb;border-radius:8px;padding:16px;font-size:13px;line-height:1.8">
+    <code style="background:#e5e7eb;padding:2px 6px;border-radius:3px">字段值.join('\t')</code> — 这就是全部魔法。<br>
+    Tab 是 Excel 的"列分隔符"，换行符是"行分隔符"。<br>
+    多篇论文 = 每篇一行，行内 Tab 分隔字段 → 粘贴到 Excel 自动成表。<br>
+    同理，导出 CSV 文件也是同样的 TSV/CSV 格式，Excel 直接打开。
+  </div>
+</div>
