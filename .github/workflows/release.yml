@@ -8,14 +8,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  # ── Web build + deploy to GitHub Pages ───────────────────
+  # ── Web build → GitHub Pages (gh-pages branch) ──────────
+  # Uses peaceiris/actions-gh-pages to push ./dist → gh-pages branch.
+  # No environment setup needed — just set repo Settings → Pages →
+  # Source: "Deploy from a branch" → branch: gh-pages, folder: / (root).
   deploy-web:
     runs-on: ubuntu-latest
-    environment: github-pages
     permissions:
-      contents: read
-      pages: write
-      id-token: write
+      contents: write   # required to push to gh-pages branch
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -24,10 +24,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: dist
-      - uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          # Keep deployment history (default is to force-push a single commit);
+          # set to true to preserve a full commit history on gh-pages branch.
+          force_orphan: true
 
   # ── Tauri desktop apps (Windows + Mac + Linux) ──────────
   release-tauri:
@@ -38,23 +42,39 @@ jobs:
           - platform: ubuntu-latest
             target: x86_64-unknown-linux-gnu
           - platform: macos-latest
-            target: x86_64-apple-darwin
-          - platform: macos-latest
             target: aarch64-apple-darwin
+          - platform: macos-latest
+            target: x86_64-apple-darwin
           - platform: windows-latest
             target: x86_64-pc-windows-msvc
     runs-on: ${{ matrix.platform }}
+    permissions:
+      contents: write   # required to create release + upload assets
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
+
+      # Tauri v2 requires system libs on Linux
+      - name: Install Linux system dependencies
+        if: startsWith(matrix.platform, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
       - run: npm ci
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
