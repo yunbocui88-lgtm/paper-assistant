@@ -40,13 +40,13 @@ jobs:
       matrix:
         include:
           - platform: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
+            args: ''                        # Linux: host target is fine
           - platform: macos-latest
-            target: aarch64-apple-darwin
+            args: '--target aarch64-apple-darwin'
           - platform: macos-latest
-            target: x86_64-apple-darwin
+            args: '--target x86_64-apple-darwin'
           - platform: windows-latest
-            target: x86_64-pc-windows-msvc
+            args: ''                        # Windows: host target (MSVC), no --target needed
     runs-on: ${{ matrix.platform }}
     permissions:
       contents: write   # required to create release + upload assets
@@ -60,7 +60,8 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          # Install cross-compilation targets only for macOS
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       # Speed up Rust builds across runs
       - name: Rust cache
@@ -68,7 +69,7 @@ jobs:
         with:
           workspaces: './src-tauri -> target'
 
-      # Tauri v2 requires system libs on Linux
+      # Tauri v2 requires system libs on Linux (webkit2gtk-4.1)
       - name: Install Linux system dependencies
         if: startsWith(matrix.platform, 'ubuntu')
         run: |
@@ -86,11 +87,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # Explicitly use npm-installed tauri CLI (fixes Windows detection)
-          tauriScript: npm run tauri
           tagName: ${{ github.ref_name }}
           releaseName: '论文阅读助手 v__VERSION__'
           releaseBody: 'See the assets to download and install.'
           releaseDraft: true
           prerelease: false
-          args: --target ${{ matrix.target }}
+          args: ${{ matrix.args }}
