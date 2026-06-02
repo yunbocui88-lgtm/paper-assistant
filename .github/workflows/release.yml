@@ -79,14 +79,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Find the DMG file
-          DMG=$(find src-tauri/target -name "*.dmg" -type f | head -1)
-          echo "Found: $DMG"
-          # Create draft release (first run creates, second run is no-op due to --skip-existing)
+          set -e
+          # Locate the DMG
+          DMG=$(find src-tauri/target -name "*.dmg" -type f 2>/dev/null | head -1)
+          if [ -z "$DMG" ]; then
+            echo "ERROR: No DMG found!"
+            find src-tauri/target -type f 2>/dev/null | head -20
+            exit 1
+          fi
+          echo "DMG: $DMG"
+          ls -lh "$DMG"
+          # Create draft release (idempotent)
           gh release create "${{ github.ref_name }}" \
             --title "论文阅读助手 ${{ github.ref_name }}" \
             --notes "拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。" \
             --draft \
-            --skip-existing || true
-          # Upload the DMG
+            --skip-existing
+          # Upload asset
           gh release upload "${{ github.ref_name }}" "$DMG" --clobber
