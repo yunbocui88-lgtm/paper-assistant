@@ -77,23 +77,28 @@ jobs:
 
       - name: Upload to Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -e
-          # Locate the DMG
+          # Find the DMG file (works with both bash and zsh)
           DMG=$(find src-tauri/target -name "*.dmg" -type f 2>/dev/null | head -1)
           if [ -z "$DMG" ]; then
             echo "ERROR: No DMG found!"
-            find src-tauri/target -type f 2>/dev/null | head -20
+            echo "Listing target directory structure:"
+            find src-tauri/target/release -maxdepth 3 -type d 2>/dev/null || true
+            echo "---"
+            find src-tauri/target -maxdepth 5 -name "*.dmg" 2>/dev/null || true
             exit 1
           fi
-          echo "DMG: $DMG"
+          echo "DMG found: $DMG"
           ls -lh "$DMG"
-          # Create draft release (idempotent)
+
+          # Create release (will fail if it already exists — that's ok)
           gh release create "${{ github.ref_name }}" \
             --title "论文阅读助手 ${{ github.ref_name }}" \
             --notes "拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。" \
-            --draft \
-            --skip-existing
-          # Upload asset
+            --draft || true
+
+          # Upload DMG
+          echo "Uploading to release ${{ github.ref_name }}..."
           gh release upload "${{ github.ref_name }}" "$DMG" --clobber
