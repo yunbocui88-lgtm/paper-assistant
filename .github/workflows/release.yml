@@ -94,8 +94,14 @@ jobs:
 
       - run: npm ci
 
+      # Build frontend separately (before tauri build) for clearer error visibility
+      - name: Build frontend
+        shell: bash
+        run: npm run build:tauri
+
       - name: Build Tauri app
-        run: npx tauri build ${{ matrix.tauri-args }}
+        shell: bash
+        run: npm run tauri build ${{ matrix.tauri-args }}
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
