@@ -7,11 +7,10 @@ on:
   workflow_dispatch:
 
 env:
-  # Opt into Node.js 24 early (required by June 2026)
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ── Web build → GitHub Pages ────────────────────────────
+  # ── Web → GitHub Pages ──────────────────────────────────
   deploy-web:
     runs-on: ubuntu-latest
     permissions:
@@ -24,34 +23,47 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           force_orphan: true
 
-  # ── Tauri desktop apps ─────────────────────────────────
+  # ── Desktop apps ────────────────────────────────────────
   release-tauri:
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: ubuntu-latest
+          - name: Linux
+            platform: ubuntu-latest
             tauri-args: ''
-            artifact-glob: 'src-tauri/target/release/bundle/**/*.{AppImage,deb,rpm}'
-          - platform: macos-latest
-            tauri-args: '--target aarch64-apple-darwin'
-            artifact-glob: 'src-tauri/target/aarch64-apple-darwin/release/bundle/**/*.{dmg,app.tar.gz}'
-          - platform: macos-latest
+            rust-targets: ''
+            bundle-glob: 'src-tauri/target/release/bundle/**/*.{AppImage,deb}'
+
+          - name: macOS-ARM
+            platform: macos-latest
+            tauri-args: ''
+            rust-targets: ''
+            bundle-glob: 'src-tauri/target/release/bundle/**/*.dmg'
+
+          - name: macOS-Intel
+            platform: macos-latest
             tauri-args: '--target x86_64-apple-darwin'
-            artifact-glob: 'src-tauri/target/x86_64-apple-darwin/release/bundle/**/*.{dmg,app.tar.gz}'
-          - platform: windows-latest
+            rust-targets: 'x86_64-apple-darwin'
+            bundle-glob: 'src-tauri/target/x86_64-apple-darwin/release/bundle/**/*.dmg'
+
+          - name: Windows
+            platform: windows-latest
             tauri-args: ''
-            artifact-glob: 'src-tauri/target/release/bundle/**/*.{msi,exe}'
+            rust-targets: ''
+            bundle-glob: 'src-tauri/target/release/bundle/**/*.{msi,exe}'
+
+    name: '${{ matrix.name }}'
     runs-on: ${{ matrix.platform }}
     permissions:
       contents: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -63,7 +75,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets: ${{ matrix.rust-targets }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
@@ -71,7 +83,7 @@ jobs:
           workspaces: './src-tauri -> target'
 
       - name: Install Linux system dependencies
-        if: startsWith(matrix.platform, 'ubuntu')
+        if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -82,42 +94,17 @@ jobs:
 
       - run: npm ci
 
-      # Show what we're about to run (helps debugging)
-      - name: Print build info
-        shell: bash
-        run: |
-          echo "Platform: ${{ matrix.platform }}"
-          echo "Tauri args: ${{ matrix.tauri-args }}"
-          echo "Node: $(node -v)"
-          echo "npm: $(npm -v)"
-          npx tauri --version || echo "tauri CLI not yet available"
-
-      # Build Tauri directly (not via tauri-action)
       - name: Build Tauri app
-        shell: bash
-        run: |
-          if [ -n "${{ matrix.tauri-args }}" ]; then
-            npx tauri build ${{ matrix.tauri-args }}
-          else
-            npx tauri build
-          fi
+        run: npx tauri build ${{ matrix.tauri-args }}
 
-      # List artifacts for debugging
-      - name: List built artifacts
-        shell: bash
-        run: |
-          echo "=== Built artifacts ==="
-          find src-tauri/target -name "*.msi" -o -name "*.exe" -o -name "*.AppImage" -o -name "*.deb" -o -name "*.dmg" -o -name "*.app.tar.gz" 2>/dev/null || echo "(no bundles found)"
-
-      # Upload to GitHub Release
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           name: '论文阅读助手 ${{ github.ref_name }}'
-          body: 'See the assets to download and install.'
+          body: '拖入 PDF 即可用 AI 提取关键信息。支持 Windows / macOS / Linux。'
           draft: true
           prerelease: false
-          files: ${{ matrix.artifact-glob }}
+          files: ${{ matrix.bundle-glob }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
