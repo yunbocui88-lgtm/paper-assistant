@@ -29,18 +29,12 @@ jobs:
           publish_dir: ./dist
           force_orphan: true
 
-  # ── Desktop apps ────────────────────────────────────────
-  release-tauri:
+  # ── macOS desktop app ───────────────────────────────────
+  release-macos:
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: Linux
-            platform: ubuntu-latest
-            tauri-args: ''
-            rust-targets: ''
-            bundle-glob: 'src-tauri/target/release/bundle/**/*.{AppImage,deb}'
-
           - name: macOS-ARM
             platform: macos-latest
             tauri-args: ''
@@ -52,12 +46,6 @@ jobs:
             tauri-args: '--target x86_64-apple-darwin'
             rust-targets: 'x86_64-apple-darwin'
             bundle-glob: 'src-tauri/target/x86_64-apple-darwin/release/bundle/**/*.dmg'
-
-          - name: Windows
-            platform: windows-latest
-            tauri-args: ''
-            rust-targets: ''
-            bundle-glob: 'src-tauri/target/release/bundle/**/*.{msi,exe}'
 
     name: '${{ matrix.name }}'
     runs-on: ${{ matrix.platform }}
@@ -82,24 +70,9 @@ jobs:
         with:
           workspaces: './src-tauri -> target'
 
-      - name: Install Linux system dependencies
-        if: matrix.platform == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libwebkit2gtk-4.1-dev \
-            libayatana-appindicator3-dev \
-            librsvg2-dev \
-            patchelf
-
       - run: npm ci
 
       - name: Build Tauri app
-        run: npx tauri build ${{ matrix.tauri-args }}
-
-      - name: Build Tauri app (Windows fallback)
-        if: failure() && matrix.platform == 'windows-latest'
-        shell: bash
         run: npx tauri build ${{ matrix.tauri-args }}
 
       - name: Upload to Release
@@ -107,7 +80,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: '论文阅读助手 ${{ github.ref_name }}'
-          body: '拖入 PDF 即可用 AI 提取关键信息。支持 Windows / macOS / Linux。'
+          body: '拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。'
           draft: true
           prerelease: false
           files: ${{ matrix.bundle-glob }}
