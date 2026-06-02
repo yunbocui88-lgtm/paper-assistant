@@ -65,6 +65,20 @@ if (typeof (Promise as any).withResolvers !== 'function') {
   };
 }
 
+// ── Uint8Array.prototype.toHex() ─────────────────────────────────────────
+// Chrome 126+, Safari 17.4+, Firefox 129+. Used by pdfjs-dist v6.
+// Without this polyfill, older browsers (WeChat, QQ, Safari < 17.4) crash
+// with "a.toHex is not a function" or "undefined is not a function".
+if (typeof (Uint8Array.prototype as any).toHex !== 'function') {
+  (Uint8Array.prototype as any).toHex = function (this: Uint8Array): string {
+    let hex = '';
+    for (let i = 0; i < this.length; i++) {
+      hex += (this[i] >> 4).toString(16) + (this[i] & 0xf).toString(16);
+    }
+    return hex;
+  };
+}
+
 // ── AbortSignal.timeout(ms) ──────────────────────────────────────────────
 if (typeof AbortSignal.timeout !== 'function') {
   AbortSignal.timeout = function (ms: number): AbortSignal {
