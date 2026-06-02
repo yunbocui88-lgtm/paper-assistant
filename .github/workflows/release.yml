@@ -75,17 +75,18 @@ jobs:
       - name: Build Tauri app
         run: npx tauri build ${{ matrix.tauri-args }}
 
-      - name: List artifacts
-        run: find src-tauri/target -name "*.dmg" -o -name "*.app" -type d 2>/dev/null || true
-
       - name: Upload to Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: '论文阅读助手 ${{ github.ref_name }}'
-          body: '拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。'
-          draft: true
-          prerelease: false
-          files: ${{ matrix.bundle-glob }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Find the DMG file
+          DMG=$(find src-tauri/target -name "*.dmg" -type f | head -1)
+          echo "Found: $DMG"
+          # Create draft release (first run creates, second run is no-op due to --skip-existing)
+          gh release create "${{ github.ref_name }}" \
+            --title "论文阅读助手 ${{ github.ref_name }}" \
+            --notes "拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。" \
+            --draft \
+            --skip-existing || true
+          # Upload the DMG
+          gh release upload "${{ github.ref_name }}" "$DMG" --clobber
