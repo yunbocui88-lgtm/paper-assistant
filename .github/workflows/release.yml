@@ -11,6 +11,7 @@ jobs:
   # ── Web build + deploy to GitHub Pages ───────────────────
   deploy-web:
     runs-on: ubuntu-latest
+    environment: github-pages
     permissions:
       contents: read
       pages: write
@@ -30,7 +31,6 @@ jobs:
 
   # ── Tauri desktop apps (Windows + Mac + Linux) ──────────
   release-tauri:
-    needs: deploy-web
     strategy:
       fail-fast: false
       matrix:
