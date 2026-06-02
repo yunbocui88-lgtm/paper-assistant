@@ -62,6 +62,12 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
+      # Speed up Rust builds across runs
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
       # Tauri v2 requires system libs on Linux
       - name: Install Linux system dependencies
         if: startsWith(matrix.platform, 'ubuntu')
@@ -80,6 +86,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          # Explicitly use npm-installed tauri CLI (fixes Windows detection)
+          tauriScript: npm run tauri
           tagName: ${{ github.ref_name }}
           releaseName: '论文阅读助手 v__VERSION__'
           releaseBody: 'See the assets to download and install.'
