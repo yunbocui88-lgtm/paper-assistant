@@ -93,11 +93,13 @@ jobs:
           echo "DMG found: $DMG"
           ls -lh "$DMG"
 
-          # Create release (will fail if it already exists — that's ok)
-          gh release create "${{ github.ref_name }}" \
-            --title "论文阅读助手 ${{ github.ref_name }}" \
-            --notes "拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。" \
-            --draft || true
+          # Create release; if already exists (created by other job), ignore error
+          if ! gh release view "${{ github.ref_name }}" &>/dev/null; then
+            gh release create "${{ github.ref_name }}" \
+              --title "论文阅读助手 ${{ github.ref_name }}" \
+              --notes "拖入 PDF 即可用 AI 提取关键信息。支持 Apple Silicon / Intel Mac。" \
+              --draft
+          fi
 
           # Upload DMG
           echo "Uploading to release ${{ github.ref_name }}..."
